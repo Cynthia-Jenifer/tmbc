@@ -19,7 +19,7 @@ function ProductCard() {
 
     useEffect(() => {
         const fetchProducts = async () => {
-            let url = 'http://localhost:8080/getProduct';
+            let url = 'https://tmbc-backend.onrender.com/getProduct';
             let data = {};
     
             if (selectedCategory === 'Lowest Price') {

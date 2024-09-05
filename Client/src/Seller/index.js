@@ -89,7 +89,7 @@ const handleSubmit = async (e) => {
       if (thumbnail) {
         thumbnailFormData.append("file", thumbnail);
         const thumbnailResponse = await axios.post(
-          "http://localhost:8080/upload",
+          "https://tmbc-backend.onrender.com/upload",
           thumbnailFormData,
           {
             headers: {

@@ -38,7 +38,7 @@ function Signup() {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:8080/register",
+        "https://tmbc-backend.onrender.com/register",
         formData
       );
       if (response?.data?.status === "success") {
