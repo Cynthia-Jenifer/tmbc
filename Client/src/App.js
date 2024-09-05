@@ -14,7 +14,6 @@ import Seller from './Seller/index'
 
 function App() {
   const [user, setUser] = useState(null);
-  console.log(user,"check")
 
   const handleLogin = (userData) => {
     setUser(userData);

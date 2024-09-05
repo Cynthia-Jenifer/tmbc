@@ -9,7 +9,6 @@ function Signin({ onLogin }) {
     password: "",
     role: "",
   });
-  console.log(formData);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 

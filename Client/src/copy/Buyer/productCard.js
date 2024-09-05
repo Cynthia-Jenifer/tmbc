@@ -47,7 +47,6 @@ function ProductCard({...props}) {
     
     
     const handleSubmit=(product)=>{
-        console.log(product,"c")
         setSelectedProduct(product);
         props.setProductDetail(true)
 
