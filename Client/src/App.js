@@ -49,9 +49,9 @@ function App() {
           element={
             <ProtectedRoute
               role={user?.role}
-              allowedRoles={['admin', 'user']}
+              allowedRoles={['seller', 'buyer']}
             >
-              {user?.role === 'admin' ? (
+              {user?.role === 'seller' ? (
                 <Seller />
               ) : (
                 <Buyer />

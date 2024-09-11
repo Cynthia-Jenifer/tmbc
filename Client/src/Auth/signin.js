@@ -7,7 +7,7 @@ function Signin({ onLogin }) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    role: "",
+  
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -31,13 +31,14 @@ function Signin({ onLogin }) {
   };
   const handleSubmit = async (e,role) => {
     e.preventDefault();
+    const dataToSubmit = { ...formData, role };
     if (!validateForm()) return;
 
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://tmbc-backend.onrender.com/login",
-        formData
+        "http://localhost:8080/login",
+        dataToSubmit
       );
       if (response?.data?.status === "success") {
         alert(response?.data?.message);
@@ -48,7 +49,7 @@ function Signin({ onLogin }) {
         localStorage.setItem('name', name);
       }
 
-        const user = { ...formData,role }; // Example user object
+        const user = { ...formData,role }; 
         onLogin(user);
         navigate('/dashboard');
       } else {
@@ -103,14 +104,14 @@ function Signin({ onLogin }) {
         </div> */}
         <button
           class="w-full bg-black text-white p-2 rounded-lg mb-6 hover:bg-white hover:text-black hover:border hover:border-gray-300"
-          onClick={(e) => handleSubmit(e, "admin")}
+          onClick={(e) => handleSubmit(e, "seller")}
 
         >
           Login as Seller
         </button>
         <button
           class="w-full bg-black text-white p-2 rounded-lg mb-6 hover:bg-white hover:text-black hover:border hover:border-gray-300"
-          onClick={(e) => handleSubmit(e, "user")}
+          onClick={(e) => handleSubmit(e, "buyer")}
 
         >
           Login as Buyer

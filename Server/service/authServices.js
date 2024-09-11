@@ -64,58 +64,66 @@ module.exports = function () {
       };
    
   
-    this.getAuthService = (userData) => {
-
-
+      this.getAuthService = (userData) => {
         return new Promise(async function (resolve) {
-          var response = {};
-          var resp = {};
-          try {
-            var result = await authDaoObject.getAuthDao(userData);
-
-            var checkUserLogin = await authDaoObject.checkAdminEmail(userData);
-            if (checkUserLogin.data.length == 0) {
-              response.error = true;
-              response.status = "failure";
-              response.message = "Invalid Login !";
-              resolve(response);
-            } else {
-              var passwordHash = this.spiltPasswordHash(
-                checkUserLogin.data[0].password
-              );
-              var hash = this.reGeneratePasswordHash(
-                userData.password,
-                passwordHash.salt
-              );
-              if (hash === passwordHash.hash) {
-                var genToken = {};
-                genToken.id = checkUserLogin.data[0].id;
-                genToken.email = checkUserLogin.data[0].email;
-                
-                response.error = false;
-                response.status = "success";
-                response.message = "Login Successful!";
-             
-                var token = await this.generateToken(genToken);
-                resp.token = Buffer.from(token).toString("base64");
-                response.name =result.data[0].name;
-                response.token = resp.token;
-                resolve(response);
-              } else {
+            var response = {};
+            var resp = {};
+            try {
+                var result = await authDaoObject.getAuthDao(userData);
+    
+                var checkUserLogin = await authDaoObject.checkAdminEmail(userData);
+                if (checkUserLogin.data.length == 0) {
+                    response.error = true;
+                    response.status = "failure";
+                    response.message = "Invalid Login!";
+                    resolve(response);
+                } else {
+                    var passwordHash = this.spiltPasswordHash(
+                        checkUserLogin.data[0].password
+                    );
+                    var hash = this.reGeneratePasswordHash(
+                        userData.password,
+                        passwordHash.salt
+                    );
+    
+                    if (hash === passwordHash.hash) {
+                        // Check if the role matches
+                        if (userData.role === checkUserLogin.data[0].role) {
+                            var genToken = {};
+                            genToken.id = checkUserLogin.data[0].id;
+                            genToken.email = checkUserLogin.data[0].email;
+                            genToken.role = checkUserLogin.data[0].role;
+    
+                            response.error = false;
+                            response.status = "success";
+                            response.message = "Login Successful!";
+    
+                            var token = await this.generateToken(genToken);
+                            resp.token = Buffer.from(token).toString("base64");
+                            response.name = result.data[0].name;
+                            response.token = resp.token;
+                            resolve(response);
+                        } else {
+                            response.error = true;
+                            response.status = "failure";
+                            response.message = `User Registered as ${checkUserLogin.data[0].role} `;
+                            resolve(response);
+                        }
+                    } else {
+                        response.error = true;
+                        response.status = "failure";
+                        response.message = "Invalid Password ..!";
+                        resolve(response);
+                    }
+                }
+            } catch (error) {
+                console.log(error);
                 response.error = true;
                 response.status = "failure";
-                response.message = "Invalid Password ..!";
+                response.message = "OOPS Service Error";
                 resolve(response);
-              }
             }
-          } catch (error) {
-            console.log(error);
-            response.error = true;
-            response.status = "failure";
-            response.message = "OOPS Service Error";
-            resolve(response);
-          }
         });
-        
-      };
+    };
+    
 }

@@ -106,7 +106,7 @@ const handleSubmit = async (e) => {
         const imageFormData = new FormData();
         imageFormData.append("file", image);
         const imageResponse = await axios.post(
-          "http://localhost:8080/upload",
+          "https://tmbc-backend.onrender.com/upload",
           imageFormData,
           {
             headers: {
@@ -121,7 +121,7 @@ const handleSubmit = async (e) => {
 
       // Submit product data
       const productResponse = await axios.post(
-        "http://localhost:8080/product",
+        "https://tmbc-backend.onrender.com/product",
         new URLSearchParams(formData).toString(), // Form-urlencoded
         {
           headers: {
